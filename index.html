@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dad Joke Generator</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-image: linear-gradient(to right, rgb(56, 21, 51), rgb(51, 18, 41), purple);
+            font-family: 'Arial', sans-serif;
+            color: white;
+            text-align: center;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            animation: fadeInDown 1s ease-in-out;
+        }
+
+        .joke-container {
+            margin: 1rem 0;
+            font-size: 1.5rem;
+            animation: fadeIn 1.5s ease-in-out;
+        }
+
+        .btn {
+            background-color: #fff;
+            color: #333;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            font-size: 1rem;
+            animation: fadeInUp 1s ease-in-out;
+        }
+
+        .btn:hover {
+            background-color: #ddd;
+            transform: scale(1.05);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 2rem;
+            }
+            .joke-container {
+                font-size: 1.25rem;
+            }
+            .btn {
+                font-size: 0.875rem;
+                padding: 0.5rem 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1> Joke Generator</h1>
+        <div class="joke-container">
+            <p class="joke_api">Click the button to get a joke!</p>
+        </div>
+        <button id="next_joke" class="btn">Next Joke</button>
+    </div>
+    <script>
+        const jokeapi = document.querySelector(".joke_api");
+        const apiURL = "https://icanhazdadjoke.com/";
+
+        const jokehandle = async () => {
+            try {
+                const response = await fetch(apiURL, {
+                    headers: {
+                        Accept: "application/json",
+                    },
+                });
+                const data = await response.json();
+                jokeapi.innerHTML = data.joke;
+            } catch (error) {
+                // console.log(error);
+                jokeapi.innerHTML = error;
+            }
+        };
+
+        document.getElementById("next_joke").addEventListener("click", jokehandle);
+    </script>
+</body>
+</html>
